@@ -14,12 +14,15 @@ namespace DTPortal.Core.Utilities
     public class LocalJWTManager: ILocalJWTManager
     {
         private readonly ILogger<LocalJWTManager> _logger;
+        private readonly IConfiguration _configuration;
         public JWTConfig _config { get; set; }
 
-        public LocalJWTManager(JWTConfig config, ILogger<LocalJWTManager> logger)
+        public LocalJWTManager(JWTConfig config, ILogger<LocalJWTManager> logger,IConfiguration configuration)
         {
+        
             _config = config;
             _logger = logger;
+            _configuration = configuration;
         }
 
         // Generate a JWToken
@@ -29,7 +32,7 @@ namespace DTPortal.Core.Utilities
 
             // Generate a security key from secret key
             var securityKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes(_config.SecretKey));
+                 Encoding.ASCII.GetBytes(_configuration["JWTConfig:SecretKey"]));
 
             // Create Token Handler
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -66,8 +69,7 @@ namespace DTPortal.Core.Utilities
 
             // Generate a security key from secret key
             var securityKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes(_config.SecretKey));
-
+                 Encoding.ASCII.GetBytes(_configuration["JWTConfig:SecretKey"]));
             // Create Token Handler
             var tokenHandler = new JwtSecurityTokenHandler();
             try
