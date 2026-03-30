@@ -29,10 +29,12 @@ namespace DTPortal.Core.Utilities
         private readonly SSOConfig ssoConfig;
         private readonly idp_configuration idpConfiguration;
         private readonly IGlobalConfiguration _globalConfiguration;
+        private readonly IConfiguration _configuration;
         public JWTConfig _config { get; set; }
         public TokenManager(JWTConfig config, ILogger<TokenManager> logger,
             IPKIServiceClient pkiServiceClient, IPKILibrary pkiLibrary,
-            IUnitOfWork unitOfWork, IGlobalConfiguration globalConfiguration)
+            IUnitOfWork unitOfWork, IGlobalConfiguration globalConfiguration,
+            IConfiguration configuration)
         {
             _config = config;
             _pkiServiceClient = pkiServiceClient;
@@ -40,6 +42,7 @@ namespace DTPortal.Core.Utilities
             _pkiLibrary = pkiLibrary;
             _unitOfWork = unitOfWork;
             _globalConfiguration = globalConfiguration;
+            _configuration = configuration;
 
             // Get SSO Configuration
             ssoConfig = _globalConfiguration.GetSSOConfiguration();
@@ -65,7 +68,7 @@ namespace DTPortal.Core.Utilities
 
             // Generate a security key from secret key
             var securityKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes(_config.SecretKey));
+                Encoding.ASCII.GetBytes(_configuration["JWTConfig:SecretKey"])));
 
             // Create Token Handler
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -102,7 +105,7 @@ namespace DTPortal.Core.Utilities
 
             // Generate a security key from secret key
             var securityKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes(_config.SecretKey));
+                Encoding.ASCII.GetBytes(_configuration["JWTConfig:SecretKey"])));
 
             // Create Token Handler
             var tokenHandler = new JwtSecurityTokenHandler();
