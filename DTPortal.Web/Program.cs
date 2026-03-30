@@ -179,7 +179,8 @@ async Task ConfigureServices(WebApplicationBuilder builder)
             ["ConnectionStrings:RAConnString"] = data["ConnectionStrings:RAConnString"]?.ToString(),
             ["RedisConnString"] = data["RedisConnString"]?.ToString(),
             ["DTPortalClientId"] = data["DTPortalClientId"]?.ToString(),
-            ["GoogleMapAPIKey"] = data["GoogleMapAPIKey"]?.ToString()
+            ["GoogleMapAPIKey"] = data["GoogleMapAPIKey"]?.ToString(),
+            ["JWTConfig:SecretKey"] = data["JWTConfig:SecretKey"].ToString()            
         };
 
         // Inject Vault secrets into configuration
