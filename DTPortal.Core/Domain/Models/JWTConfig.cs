@@ -8,7 +8,7 @@ namespace DTPortal.Core.Domain.Models
 {
     public class JWTConfig
     {
-        public string SecretKey { get; set; }
+        
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public string Algorithm { get; set; }
