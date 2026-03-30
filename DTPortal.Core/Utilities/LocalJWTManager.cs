@@ -47,11 +47,11 @@ namespace DTPortal.Core.Utilities
                     new Claim(ClaimTypes.Name, userName),
                     new Claim(JwtRegisteredClaimNames.Nonce, nonce),
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(_config.ExpiryInMins),
-                Issuer = _config.Issuer,
-                Audience = _config.Audience,
+                Expires = DateTime.UtcNow.AddMinutes(Int32.Parse(_configuration["JWTConfig:ExpiryInMins"])),
+                Issuer = _configuration["JWTConfig:Issuer"],
+                Audience = _configuration["JWTConfig:Audience"],
                 SigningCredentials = new SigningCredentials(securityKey,
-                _config.Algorithm)
+                _configuration["JWTConfig:Algorithm"])
             };
 
             // Create Token
@@ -81,8 +81,8 @@ namespace DTPortal.Core.Utilities
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidIssuer = _config.Issuer,
-                    ValidAudience = _config.Audience,
+                    ValidIssuer = _configuration["JWTConfig:Issuer"],
+                    ValidAudience =  _configuration["JWTConfig:Audience"],
                     IssuerSigningKey = securityKey
                 }, out SecurityToken validatedToken);
             }
